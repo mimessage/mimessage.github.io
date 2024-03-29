@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Messaging Platform</title>
+</head>
+<body>
+    <h1>Simple Messaging Platform</h1>
+    <div id="chat">
+        <div id="messages"></div>
+        <input type="text" id="message" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        // Initialize user ID (you can set this dynamically based on user login)
+        const userId = 'user123';
+
+        // Load existing messages from local storage
+        const existingMessages = JSON.parse(localStorage.getItem('messages')) || [];
+
+        // Display existing messages
+        const messagesDiv = document.getElementById('messages');
+        existingMessages.forEach(message => {
+            messagesDiv.innerHTML += `<p>${message.sender}: ${message.text}</p>`;
+        });
+
+        // Function to send a message
+        function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const newMessage = { sender: userId, text: messageText };
+                existingMessages.push(newMessage);
+                localStorage.setItem('messages', JSON.stringify(existingMessages));
+                messagesDiv.innerHTML += `<p>${newMessage.sender}: ${newMessage.text}</p>`;
+                messageInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
